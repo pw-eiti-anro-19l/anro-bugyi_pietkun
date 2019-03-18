@@ -1,0 +1,6 @@
+<launch>
+	<rosparam command="load" file="$(find zadanie1)/config/params.yaml"/>
+
+	<node pkg="turtlesim" name="sim" type="turtlesim_node"/>
+	<node pkg="zadanie1" name="controller" type="my_controller.py"/>
+</launch>
