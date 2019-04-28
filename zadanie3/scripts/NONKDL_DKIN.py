@@ -1,8 +1,10 @@
 import rospy
 from sensor_msgs.msg import *
 from geometry_msgs.msg import *
+from visualization_msgs.msg import Marker
 
-pub = rospy.Publisher('poseStamped', PoseStamped , queue_size=10)
+pub = rospy.Publisher('poseStamped', PoseStamped , queue_size=100)
+marker_pub = rospy.Publisher('visualization', Marker, queue_size=100)
 
 dhparam = {}
 with open('../source/dhparams.json','r') as file:
@@ -47,13 +49,37 @@ def callback(data):
     poseS.pose.orientation.z = zq
     poseS.pose.orientation.w = wq
 
+	pub.publish(poseS)
+	
+	marker = Marker()
+	marker.header.frame_id = "point";
+	marker.header.stamp = ros::Time();
+	marker.ns = "my_namespace";
+	marker.id = 0;
+	marker.type = visualization_msgs::Marker::SPHERE;
+	marker.action = visualization_msgs::Marker::ADD;
+	marker.pose.position.x = x;
+	marker.pose.position.y = y;
+	marker.pose.position.z = z;
+	marker.pose.orientation.x = xq;
+	marker.pose.orientation.y = yq;
+	marker.pose.orientation.z = zq;
+	marker.pose.orientation.w = wq;
+	marker.scale.x = 0.1;
+	marker.scale.y = 0.1;
+	marker.scale.z = 0.1;
+	marker.color.a = 1.0; // Don't forget to set the alpha!
+	marker.color.r = 1;
+	marker.color.g = 0;
+	marker.color.b = 1;
 
-    pub.publish(poseS)
+	marker_pub.publish( marker );
+	
 
 def listener():
 
 
-    rospy.init_node('listener', anonymous=True)
+    rospy.init_node('NONKDL_DKIN', anonymous=True)
 
     rospy.Subscriber("joint_states", JointState , callback)
 
