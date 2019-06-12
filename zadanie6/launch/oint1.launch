@@ -1,9 +1,0 @@
-<launch>
-    <param name="robot_description" command="xacro --inorder '$(find zadanie6)/urdf/movable_joints.urdf'"/>
-    <param name="use_gui" value="true"/>
-
-    <node name="rviz" pkg="rviz" type="rviz" args="-f base_link" required="true"/>
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
-    <node name="oint" pkg="zadanie6" type="oint.py" />
-    <node name="IKIN" pkg="zadanie6" type="IKIN.py" />
-</launch>
